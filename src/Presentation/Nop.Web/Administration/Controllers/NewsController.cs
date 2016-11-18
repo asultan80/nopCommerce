@@ -170,6 +170,9 @@ namespace Nop.Admin.Controllers
                     m.CreatedOn = _dateTimeHelper.ConvertToUserTime(x.CreatedOnUtc, DateTimeKind.Utc);
                     m.LanguageName = x.Language.Name;
                     m.Comments = x.CommentCount;
+                    m.ApprovedComments = x.NewsComments.Count(comment => comment.IsApproved);
+                    m.NotApprovedComments = x.NewsComments.Count(comment => !comment.IsApproved);
+
                     return m;
                 }),
                 Total = news.TotalCount
