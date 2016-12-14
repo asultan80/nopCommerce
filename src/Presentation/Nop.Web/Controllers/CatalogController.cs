@@ -70,6 +70,7 @@ namespace Nop.Web.Controllers
         private readonly BlogSettings _blogSettings;
         private readonly ForumSettings _forumSettings;
         private readonly ICacheManager _cacheManager;
+        private readonly ICustomerService _customerService;
 
         #endregion
 
@@ -106,7 +107,8 @@ namespace Nop.Web.Controllers
             VendorSettings vendorSettings,
             BlogSettings blogSettings,
             ForumSettings  forumSettings,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager,
+            ICustomerService customerService)
         {
             this._categoryService = categoryService;
             this._manufacturerService = manufacturerService;
@@ -140,6 +142,7 @@ namespace Nop.Web.Controllers
             this._blogSettings = blogSettings;
             this._forumSettings = forumSettings;
             this._cacheManager = cacheManager;
+            this._customerService = customerService;
         }
 
         #endregion
@@ -1012,8 +1015,9 @@ namespace Nop.Web.Controllers
                 MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
                 MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                 SeName = vendor.GetSeName(),
-                AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors
-            };
+                AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
+                VendorManager = _customerService.GetAllCustomers().FirstOrDefault(c => c.VendorId == vendor.Id)
+        };
 
 
 
@@ -1067,7 +1071,8 @@ namespace Nop.Web.Controllers
                     MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
                     MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                     SeName = vendor.GetSeName(),
-                    AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors
+                    AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
+                    VendorManager = _customerService.GetAllCustomers().FirstOrDefault(c => c.VendorId == vendor.Id)
                 };
                 //prepare picture model
                 int pictureSize = _mediaSettings.VendorThumbPictureSize;

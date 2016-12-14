@@ -30,7 +30,9 @@
         @if (!String.IsNullOrWhiteSpace(Model.Description))
         {
             <div class="vendor-description">
-                @Html.Raw(Model.Description)
+                @Html.Raw(Model.Description) <br />
+                Phone Number : @Html.Raw(Model.PhoneNumber) <br />
+                Address: @Html.Raw(Model.Address)
             </div>
         }
         @*contact vendor*@

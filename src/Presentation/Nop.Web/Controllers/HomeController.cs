@@ -14,6 +14,7 @@ using Nop.Web.Framework.Security;
 using Nop.Web.Infrastructure.Cache;
 using Nop.Web.Models.Catalog;
 using Nop.Web.Models.Media;
+using Nop.Services.Customers;
 
 namespace Nop.Web.Controllers
 {
@@ -30,6 +31,7 @@ namespace Nop.Web.Controllers
         private readonly IWebHelper _webHelper;
         private readonly IWorkContext _workContext;
         private readonly IStoreContext _storeContext;
+        private readonly ICustomerService _customerService;
 
         #endregion
 
@@ -41,7 +43,8 @@ namespace Nop.Web.Controllers
             ILocalizationService localizationService,
             IWebHelper webHelper,
             IWorkContext workContext,
-            IStoreContext storeContext)
+            IStoreContext storeContext,
+            ICustomerService customerService)
         {
             _vendorService = vendorService;
             _vendorSettings = vendorSettings;
@@ -52,6 +55,7 @@ namespace Nop.Web.Controllers
             _webHelper = webHelper;
             _workContext = workContext;
             _storeContext = storeContext;
+            _customerService = customerService;
         }
 
         [NopHttpsRequirement(SslRequirement.No)]
@@ -73,7 +77,8 @@ namespace Nop.Web.Controllers
                     MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
                     MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                     SeName = vendor.GetSeName(),
-                    AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors
+                    AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
+                    VendorManager = _customerService.GetAllCustomers().FirstOrDefault(c => c.VendorId == vendor.Id)
                 };
                 //prepare picture model
                 int pictureSize = _mediaSettings.VendorThumbPictureSize;
