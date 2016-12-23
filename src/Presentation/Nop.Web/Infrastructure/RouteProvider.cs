@@ -272,6 +272,12 @@ namespace Nop.Web.Infrastructure
                             "checkout/confirm",
                             new { controller = "Checkout", action = "Confirm" },
                             new[] { "Nop.Web.Controllers" });
+
+routes.MapLocalizedRoute("CheckoutOpcSaveBilling",
+                            "checkout/OpcSaveBilling",
+                            new { controller = "Checkout", action = "OpcSaveBilling" },
+                            new[] { "Nop.Web.Controllers" });
+
             routes.MapLocalizedRoute("CheckoutCompleted",
                             "checkout/completed/{orderId}",
                             new { controller = "Checkout", action = "Completed", orderId = UrlParameter.Optional },
